@@ -1,14 +1,23 @@
 // app/(legal)/terms.tsx
 import * as React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View, useColorScheme } from "react-native";
 import { Stack, Link } from "expo-router";
-import { useTheme as useAppTheme } from "@/constants/theme";
 
 export default function Terms() {
-  const theme = useAppTheme();
+export default function Terms() {
+  const colorScheme = useColorScheme();
+  const theme = React.useMemo(() => {
+    const isDark = colorScheme === "dark";
+    return {
+      colors: {
+        foreground: isDark ? "#FFFFFF" : "#111827",
+        muted: isDark ? "#9CA3AF" : "#6B7280",
+        accent: "#3B82F6",
+      },
+    };
+  }, [colorScheme]);
 
   return (
-    <>
       <Stack.Screen options={{ title: "Terms of Service" }} />
       <ScrollView contentContainerStyle={{ padding: 16, gap: 12 }}>
         <Text style={{ fontSize: 26, fontWeight: "800", color: theme.colors.foreground }}>

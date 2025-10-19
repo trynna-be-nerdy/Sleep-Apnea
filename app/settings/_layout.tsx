@@ -12,8 +12,6 @@ export default function SettingsStackLayout() {
         headerShadowVisible: true,
       }}
     >
-      {/* Settings menu: no header at all (so nothing to show) */}
-      <Stack.Screen name="index" options={{ headerShown: false }} />
 
       {/* Subpages keep normal headers (with back chevron, no logo) */}
       <Stack.Screen name="account" options={{ title: "Account details" }} />

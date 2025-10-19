@@ -1,70 +1,35 @@
-// app/_layout.tsx
-import "react-native-reanimated"; // must be first
-import * as React from "react";
-import { StatusBar } from "react-native";
-import { Stack } from "expo-router";
-import {
-  DarkTheme as NavDark,
-  DefaultTheme as NavLight,
-  ThemeProvider as NavThemeProvider,
-} from "@react-navigation/native";
-import { useColorScheme } from "react-native";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useTheme as useAppTheme } from "@/constants/theme";
+import { Tabs } from 'expo-router';
+import React from 'react';
 
-const queryClient = new QueryClient();
+import { HapticTab } from '@/components/haptic-tab';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
-export default function RootLayout() {
+export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
-  const appTheme = useAppTheme();
-
-  // Custom navigation theme synced with your app colors
-  const navTheme = React.useMemo(
-    () => ({
-      ...(isDark ? NavDark : NavLight),
-      colors: {
-        ...(isDark ? NavDark.colors : NavLight.colors),
-        background: appTheme.colors.background,
-        card: appTheme.colors.card,
-        text: appTheme.colors.foreground,
-        border: appTheme.colors.border,
-        primary: appTheme.colors.primary,
-        notification: appTheme.colors.accent,
-      },
-    }),
-    [isDark, appTheme]
-  );
 
   return (
-    <NavThemeProvider value={navTheme}>
-      <QueryClientProvider client={queryClient}>
-        {/* Global status bar that adapts to light/dark mode */}
-        <StatusBar
-          barStyle={isDark ? "light-content" : "dark-content"}
-          backgroundColor={appTheme.colors.background}
-        />
-
-        {/* Main navigation stack — no tab layout anymore */}
-        <Stack
-          screenOptions={{
-            headerShown: false, // You can enable this if you want headers globally
-          }}
-        >
-          {/* Keep only your real screens here */}
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(legal)" options={{ headerShown: true, title: "" }} />
-          <Stack.Screen
-            name="(modals)"
-            options={{ presentation: "modal", headerShown: true }}
-          />
-          <Stack.Screen name="auth" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="sleep/[id]"
-            options={{ headerShown: true, title: "Session" }}
-          />
-        </Stack>
-      </QueryClientProvider>
-    </NavThemeProvider>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerShown: false,
+        tabBarButton: HapticTab,
+      }}>
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: 'Explore',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+        }}
+      />
+    </Tabs>
   );
 }

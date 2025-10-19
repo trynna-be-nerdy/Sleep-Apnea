@@ -1,17 +1,15 @@
-// app/modal.tsx
-import { Link } from "expo-router";
-import { StyleSheet } from "react-native";
+import { Link } from 'expo-router';
+import { StyleSheet } from 'react-native';
 
-import { ThemedText } from "@/components/themed/themed-text";
-import { ThemedView } from "@/components/themed/themed-view";
-import { COLORS, SPACING, TYPO } from "../constants/theme";
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
 
 export default function ModalScreen() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText style={styles.title}>This is a modal</ThemedText>
+      <ThemedText type="title">This is a modal</ThemedText>
       <Link href="/" dismissTo style={styles.link}>
-        <ThemedText style={styles.linkText}>Go to home screen</ThemedText>
+        <ThemedText type="link">Go to home screen</ThemedText>
       </Link>
     </ThemedView>
   );
@@ -20,22 +18,12 @@ export default function ModalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.surface, // comes from theme.ts
-    alignItems: "center",
-    justifyContent: "center",
-    padding: SPACING.lg,
-  },
-  title: {
-    ...TYPO.title,
-    marginBottom: SPACING.lg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
   },
   link: {
-    marginTop: SPACING.md,
-    paddingVertical: SPACING.sm,
-  },
-  linkText: {
-    color: COLORS.accent,
-    fontSize: 16,
-    fontWeight: "500",
+    marginTop: 15,
+    paddingVertical: 15,
   },
 });
